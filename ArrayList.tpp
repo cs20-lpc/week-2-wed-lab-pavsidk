@@ -32,6 +32,9 @@ void ArrayList<T>::append(const T& elem) {
         buffer[this->length] = elem;
         this->length++;  
     }  
+    else {
+        throw string("append: error, list is full");
+    }
 }
 
 template <typename T>
@@ -61,7 +64,12 @@ void ArrayList<T>::copy(const ArrayList<T>& copyObj) {
 template <typename T>
 T ArrayList<T>::getElement(int position) const {
     // TODO
-    return buffer[position];
+    if ((position >= 0) && (position < this->length)) {
+        return buffer[position];
+    }
+    else {
+        throw string("getElement: error, position out of bounds");
+    }
 }
 
 template <typename T>
@@ -77,14 +85,18 @@ int ArrayList<T>::getMaxSize() const {
 template <typename T>
 void ArrayList<T>::insert(int position, const T& elem) {
     // TODO
-
-    if (this->length < maxSize) {
+    if ((this->length+1) > maxSize) {
+        throw string("insert: error, list is full");
+    }
+    if ((position >= 0) && (position < this->length)) {
         for (int i = this->length; i > position; i--) {
             buffer[i] = buffer[i-1];
         }
-
         buffer[position] = elem;
         this->length++;
+    }
+    else {
+        throw string("insert: error, position out of bounds");
     }
 }
 
@@ -101,18 +113,26 @@ bool ArrayList<T>::isFull() const {
 template <typename T>
 void ArrayList<T>::remove(int position) {
     // TODO
-    if (position < this->length) {
-        for (int i = position; i < this->length - 1; i++) {
-            buffer[i] = buffer[i+1];
-        }
-        this->length--;
+    if ((position >= 0) && (position < this->length)) {
+            for (int i = position; i < this->length - 1; i++) {
+                buffer[i] = buffer[i+1];
+            }
+            this->length--;
+    }
+    else {
+        throw string("remove: error, position out of bounds");
     }
 }
 
 template <typename T>
 void ArrayList<T>::replace(int position, const T& elem) {
     // TODO
-    buffer[position] = elem;
+    if ((position >= 0) && (position < this->length)) {
+        buffer[position] = elem;
+    }
+    else {
+        throw string("replace: error, position out of bounds"); 
+    }
 }
 
 template <typename T>
